@@ -26,7 +26,7 @@ class UI:
                 if 1 <= choice <= 6:
                     return choice
                 else:
-                    print("Invalid number, enter a number between 1 and 6.")
+                    print("Wrong input, must be a number between 1 and 6.")
                     pass
             except ValueError:
                 print("Invalid input, please enter a number.")
