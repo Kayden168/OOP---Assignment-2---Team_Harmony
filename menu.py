@@ -8,7 +8,7 @@
 # This is my own work as defined by the Academic Integrity Policy
 class Menu:
     def __init__(self) -> None:
-        self.menu_options = [
+        self.initial_menu_options = [
             "HOME MENU",
             "1. COMPONENTS",
             "2. CIRCUIT KITS",
@@ -16,6 +16,26 @@ class Menu:
             "4. CUSTOMER SALES",
             "5. TRANSACTION HISTORY",
             "6. CLOSE",
+        ]
+
+        self.component_menu = [
+            "COMPONENT MENU",
+            "1. VIEW COMPONENT",
+            "2. VIEW COMPONENTS",
+            "BACK"
+        ]
+
+        self.new_component_menu = [
+            "NEW COMPONENT MENU"
+            "1. WIRE",
+            "2. BATTERY",
+            "3. SOLAR PANEL",
+            "4. LIGHT GLOBE",
+            "5. LED LIGHT",
+            "6. SWITCH",
+            "7. SENSOR",
+            "8. BUZZER",
+            "9. BACK"
         ]
         return None
     
@@ -33,11 +53,11 @@ class Menu:
         
     def __str__(self):
         return "\n".join(
-            self.menu_options
+            self.initial_menu_options
         )
     
     def display_menu(self):
-        print("\n".join(self.menu_options))
+        print("\n".join(self.initial_menu_options))
         return
     pass
 
