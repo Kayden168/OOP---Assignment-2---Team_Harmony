@@ -110,6 +110,20 @@ class Menu:
         self.display_menu(self.initial_menu_options)
         choice = self.get_choice(6)
 
+        if choice == 1:  # Components
+            self.component_menu_loop()
+        elif choice == 2:  # Circuit Kits
+            print("Circuit Kits menu not implemented yet.\n")
+        elif choice == 3:  # Purchase Orders
+            print("Purchase Orders menu not implemented yet.\n")
+        elif choice == 4:  # Customer Sales
+            print("Customer Sales menu not implemented yet.\n")
+        elif choice == 5:  # Transaction History
+            print("Transaction History menu not implemented yet.\n")
+        elif choice == 6:  # Close
+            print("Closing program...")
+            running = False
+
 
 
         
