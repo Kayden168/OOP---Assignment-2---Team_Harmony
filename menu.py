@@ -1,10 +1,10 @@
 # Academic Integrity Statement
-# filename: UI.py
+# filename: Menu.py
 # author: Kayden Hong
 # student ID: 523258
 # email: 523258@learning.eynesbury.edu.au
 # date: 07 September 2025
-# description: UI class
+# description: Menu class
 # This is my own work as defined by the Academic Integrity Policy
 class Menu:
     def __init__(self) -> None:
@@ -53,7 +53,9 @@ class Menu:
         
     def __str__(self):
         return "\n".join(
-            self.initial_menu_options
+            self.initial_menu_options,
+            self.component_menu,
+            self.new_component_menu
         )
     
     def display_menu(self):
