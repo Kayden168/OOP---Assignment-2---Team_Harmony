@@ -67,6 +67,13 @@ class Menu:
         while True:
             self.display_menu(self.new_component_menu)
             choice = self.get_choice(9)
+
+        if choice == 1:  # Wire
+                print("\nNEW WIRE")
+                length = int(input("Please enter length (mm): "))
+                price = float(input("Please enter price: "))
+                qty = int(input("Please enter number of Wires: "))
+                print("Added " + str(length) + "mm Wire $" + "{:.2f}".format(price) + " X " + str(qty) + "\n")
     
 
     
