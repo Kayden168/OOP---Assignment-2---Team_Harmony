@@ -74,6 +74,14 @@ class Menu:
                 price = float(input("Please enter price: "))
                 qty = int(input("Please enter number of Wires: "))
                 print("Added " + str(length) + "mm Wire $" + "{:.2f}".format(price) + " X " + str(qty) + "\n")
+
+                voltage = float(input("Please enter a voltage that matches the battery size: "))
+                price = float(input("Please enter price: "))
+                qty = int(input("Please enter number of Batteries: "))
+                print("Added " + "{:.1f}".format(voltage) + "V " + size + " Battery $" + "{:.2f}".format(price) + " X " + str(qty) + "\n")
+
+
+            
     
 
     
