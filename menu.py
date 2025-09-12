@@ -61,7 +61,16 @@ class Menu:
     def display_menu(self):
         print("\n".join(self.initial_menu_options))
         return
-    pass
+    
+    def new_component(self) -> None:
+        
+        while True:
+            self.display_menu(self.new_component_menu)
+            choice = self.get_choice(9)
+    
+
+    
+
 
 if __name__ == "__main__":
     menu = Menu()
