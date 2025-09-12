@@ -51,12 +51,7 @@ class Menu:
             except ValueError:
                 print("Invalid input, please enter a number.")
         
-    def __str__(self):
-        return "\n".join(
-            self.initial_menu_options,
-            self.component_menu,
-            self.new_component_menu
-        )
+    
     
     def display_menu(self):
         print("\n".join(self.initial_menu_options))
@@ -68,7 +63,7 @@ class Menu:
             self.display_menu(self.new_component_menu)
             choice = self.get_choice(9)
 
-        if choice == 1:  # Wire
+            if choice == 1:  # Wire
                 print("\nNEW WIRE")
                 length = int(input("Please enter length (mm): "))
                 price = float(input("Please enter price: "))
@@ -79,6 +74,42 @@ class Menu:
                 price = float(input("Please enter price: "))
                 qty = int(input("Please enter number of Batteries: "))
                 print("Added " + "{:.1f}".format(voltage) + "V " + size + " Battery $" + "{:.2f}".format(price) + " X " + str(qty) + "\n")
+
+            elif choice == 9:  # Back
+                break
+
+            else:
+                print("Feature not implemented yet. Choose Wire or Battery for now.\n")
+
+    def view_components(self):
+    
+     if not self.components:
+        print("No components have been created yet.")
+     else:
+        print("\nALL COMPONENTS")
+        for i in range(len(self.components)):
+            print(str(i + 1) + ". " + self.components[i])
+
+    def component_menu_loop(self) -> None:
+    
+     running = True
+     while running:
+        self.display_menu(self.component_menu)
+        choice = self.get_choice(3)
+
+        if choice == 1:  # New Component
+            self.new_component()
+        elif choice == 2:  # View Components
+            self.view_components()
+        elif choice == 3:  # Back
+            running = False
+
+
+        
+
+    def __str__(self) -> str:
+        return "\n".join(self.initial_menu_options)
+
 
 
             
