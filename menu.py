@@ -104,6 +104,13 @@ class Menu:
         elif choice == 3:  # Back
             running = False
 
+    def home_menu_loop(self):
+     running = True
+     while running:
+        self.display_menu(self.initial_menu_options)
+        choice = self.get_choice(6)
+
+
 
         
 
