@@ -17,3 +17,7 @@ class Sensor(InputComponent):
     @property
     def voltage(self) -> float:
         return self.__voltage
+    
+    @voltage.setter
+    def voltage(self, value: float) -> None:
+        self.__voltage = float(value)
