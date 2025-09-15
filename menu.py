@@ -36,7 +36,22 @@ class Menu:
             "8. BUZZER",
             "9. BACK",
         ]
+
+        self.new_circuit_kit_menu_options = [
+            "NEW CIRCUIT KIT MENU",
+            "1. LIGHT GLOBE CIRCUIT KIT",
+            "2. LED LIGHT CIRCUIT KIT",
+            "3. SENSOR CIRCUIT KIT WITH LIGHT GLOBE",
+            "4. SENSOR CIRCUIT KIT WITH LED LIGHT",
+            "5. SENSOR CIRCUIT KIT WITH BUZZER",
+            "6. SENSOR CIRCUIT KIT WITH LIGHT GLOBE AND SWITCH",
+            "7. SENSOR CIRCUIT KIT WITH LED LIGHT AND SWITCH",
+            "8. SENSOR CIRCUIT KIT WITH BUZZER AND SWITCH",
+            "9. BACK",
+        ]
+        
         self.components = []  # list of dicts
+        self.circuit_kits = [] # list of dicts for kits
 
     def get_choice(self, max_option):
         while True:
