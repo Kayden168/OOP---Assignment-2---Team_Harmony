@@ -110,9 +110,6 @@ class Menu:
                 exit_loop = True
             else:
                 self.kit_actions(choice - 1)
-                pass
-            pass
-        return
     
     def kit_actions(self, index):
         kit = self.circuit_kits[index]
@@ -137,10 +134,6 @@ class Menu:
                     print("Unpacking " + kit["desc"])
                     kit["qty"] = max(0, kit["qty"] - qty)
                     print("Unpacked " + kit["desc"] + " X " + str(qty))
-                    pass
-                pass
-            pass
-        return
 
     def circuit_kit_menu_loop(self):
         running = True
@@ -153,9 +146,6 @@ class Menu:
                 self.view_circuit_kits()
             elif choice == 3:
                 running = False
-                pass
-            pass
-        return
         
     def new_component(self):
         running = True
