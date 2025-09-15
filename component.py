@@ -26,3 +26,20 @@ class Component(ABC):
     @price.setter
     def price(self, value: float) -> None:
         self.__price = float(value)
+
+    @abstractmethod
+    def to_csv_str(self) -> str:
+        pass
+
+    @abstractmethod
+    def duplicate(self) -> "Component":
+        pass
+
+    @abstractmethod
+    def display_the_details(self) -> str:
+        pass
+
+    @classmethod
+    @abstractmethod
+    def parse_csv(cls, csv_str: str) -> "Component":
+        pass
