@@ -21,3 +21,17 @@ class Sensor(InputComponent):
     @voltage.setter
     def voltage(self, value: float) -> None:
         self.__voltage = float(value)
+
+    ef to_csv_str(self) -> str:
+        return "Sensor," + self.sensor_type + "," + "{:.1f}".format(self.voltage) + "," + "{:.2f}".format(self.price)
+
+    def duplicate(self):
+        return Sensor(self.sensor_type, self.voltage, self.price)
+
+    def display_the_details(self) -> str:
+        t = self.sensor_type.capitalize()
+        return "{:.1f}".format(self.voltage) + "V " + t + " Sensor $" + "{:.2f}".format(self.price)
+
+    @classmethod
+    def parse_csv(cls, csv_str: str):
+        pass
