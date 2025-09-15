@@ -76,17 +76,72 @@ class Menu:
         print("Added Circuit Kit " + desc + " $" + str(price) + " X " + str(qty) + "\n")
 
     def new_circuit_kit(self):
-        while True:
-            self.display_menu(self.new_circuit_kit_menu_options)
-            choice = self.get_choice(9)
-            if choice == 9:
-                break
+        print("NEW CIRCUIT KIT MENU")
+        print("1. LIGHT GLOBE CIRCUIT KIT")
+        print("2. LED LIGHT CIRCUIT KIT")
+        print("3. SENSOR CIRCUIT KIT WITH LIGHT GLOBE")
+        print("4. SENSOR CIRCUIT KIT WITH LED LIGHT")
+        print("5. SENSOR CIRCUIT KIT WITH BUZZER")
+        print("6. SENSOR CIRCUIT KIT WITH LIGHT GLOBE AND SWITCH")
+        print("7. SENSOR CIRCUIT KIT WITH LED LIGHT AND SWITCH")
+        print("8. SENSOR CIRCUIT KIT WITH BUZZER AND SWITCH")
+        print("9. BACK")
+        choice = self.get_choice(9)
+        if choice != 9:
+            desc = input("Enter description for new circuit kit: ")
+            price = float(input("Enter price: "))
+            qty = int(input("Enter quantity: "))
+            kit = {"desc": desc, "price": price, "qty": qty}
+            self.circuit_kits.append(kit)
+            print("Added " + desc + " $" + str(price) + " X " + str(qty))
+    
+    def view_circuit_kits(self):
+        if not self.circuit_kits:
+            print("No circuit kits have been created yet.")
+            return
+        exit_loop = False
+        while not exit_loop:
+            print("ALL CIRCUIT KITS")
+            for i, kit in enumerate(self.circuit_kits, start=1):
+                print(str(i) + ". " + kit["desc"] + " $" + str(kit["price"]) + " X " + str(kit["qty"]))
+            print(str(len(self.circuit_kits) + 1) + ". BACK")
+            choice = self.get_choice(len(self.circuit_kits) + 1)
+            if choice == len(self.circuit_kits) + 1:
+                exit_loop = True
             else:
-                desc = input("Please enter circuit kit description: ")
-                price = float(input("Please enter price: "))
-                qty = int(input("Please enter number of Circuit Kits: "))
-                self.add_circuit_kit(desc, price, qty)
-
+                self.kit_actions(choice - 1)
+                pass
+            pass
+        return
+    
+    def kit_actions(self, index):
+        kit = self.circuit_kits[index]
+        running = True
+        while running:
+            print(kit["desc"] + " $" + str(kit["price"]))
+            print("1. SELL\n2. PACK\n3. UNPACK\n4. BACK")
+            choice = self.get_choice(4)
+            if choice == 4:
+                running = False
+            else:
+                qty = int(input("Please enter number of " + kit["desc"] + " $" + str(kit["price"]) + ": "))
+                if choice == 1:
+                    print("Selling " + kit["desc"])
+                    kit["qty"] = max(0, kit["qty"] - qty)
+                    print("Sold " + kit["desc"] + " X " + str(qty))
+                elif choice == 2:
+                    print("Packing " + kit["desc"])
+                    kit["qty"] = kit["qty"] + qty
+                    print("Packed " + kit["desc"] + " X " + str(qty))
+                elif choice == 3:
+                    print("Unpacking " + kit["desc"])
+                    kit["qty"] = max(0, kit["qty"] - qty)
+                    print("Unpacked " + kit["desc"] + " X " + str(qty))
+                    pass
+                pass
+            pass
+        return
+    
     def new_component(self):
         while True:
             self.display_menu(self.new_component_menu_options)
@@ -172,23 +227,24 @@ class Menu:
                 self.add_component(desc, price, qty)
 
             elif choice == 9:
-                break
+                running = False
+            else:
+                print("Feature not implemented yet.\n")
 
     def view_components(self):
         if not self.components:
             print("No components have been created yet.")
-            return
-        while True:
+        else:
             print("ALL COMPONENTS")
-            for i, comp in enumerate(self.components, start=1):
-                print(str(i) + ". " + comp["desc"] + " $" + str(comp["price"]) + " X " + str(comp["qty"]))
+            for i, line in enumerate(self.components, start=1):
+                print(str(i) + ". " + line)
             print(str(len(self.components) + 1) + ". BACK")
             choice = self.get_choice(len(self.components) + 1)
             if choice == len(self.components) + 1:
-                break
+                return
             else:
-                self.buy_sell_menu(choice - 1)
-
+                print("Selected component: " + self.components[choice - 1])
+    
     def buy_sell_menu(self, index):
         comp = self.components[index]
         while True:
