@@ -1,11 +1,3 @@
-# Academic Integrity Statement
-# filename: Menu.py
-# author: Kayden Hong
-# student ID: 523258
-# email: 523258@learning.eynesbury.edu.au
-# date: 07 September 2025
-# description: Menu class
-# This is my own work as defined by the Academic Integrity Policy
 class Menu:
     def __init__(self) -> None:
         self.initial_menu_options = [
@@ -17,16 +9,14 @@ class Menu:
             "5. TRANSACTION HISTORY",
             "6. CLOSE",
         ]
-
-        self.component_menu = [
+        self.component_menu_options = [
             "COMPONENT MENU",
-            "1. VIEW COMPONENT",
+            "1. NEW COMPONENT",
             "2. VIEW COMPONENTS",
-            "BACK"
+            "3. BACK",
         ]
-
-        self.new_component_menu = [
-            "NEW COMPONENT MENU"
+        self.new_component_menu_options = [
+            "NEW COMPONENT MENU",
             "1. WIRE",
             "2. BATTERY",
             "3. SOLAR PANEL",
@@ -35,112 +25,94 @@ class Menu:
             "6. SWITCH",
             "7. SENSOR",
             "8. BUZZER",
-            "9. BACK"
+            "9. BACK",
         ]
-        return None
-    
-    def get_choice(self):
+        self.components = []
+
+    def get_choice(self, max_option: int) -> int:
         while True:
             try:
                 choice = int(input("Please enter a number: "))
-                if 1 <= choice <= 6:
+                if 1 <= choice <= max_option:
                     return choice
                 else:
-                    print("Wrong input, must be a number between 1 and 6.")
-                    pass
+                    print(f"Wrong input, must be a number between 1 and {max_option}")
             except ValueError:
                 print("Invalid input, please enter a number.")
-        
-    
-    
-    def display_menu(self):
-        print("\n".join(self.initial_menu_options))
-        return
-    
-    def new_component(self) -> None:
-        
-        while True:
-            self.display_menu(self.new_component_menu)
-            choice = self.get_choice(9)
 
-            if choice == 1:  # Wire
-                print("\nNEW WIRE")
+    def display_menu(self, lines: list[str]) -> None:
+        print("\n".join(lines))
+
+    def new_component(self) -> None:
+        while True:
+            self.display_menu(self.new_component_menu_options)
+            choice = self.get_choice(9)
+            if choice == 1:
+                print("NEW WIRE")
                 length = int(input("Please enter length (mm): "))
                 price = float(input("Please enter price: "))
                 qty = int(input("Please enter number of Wires: "))
-                print("Added " + str(length) + "mm Wire $" + "{:.2f}".format(price) + " X " + str(qty) + "\n")
-
+                item = f"{length}MM WIRE ${price:.2f} X {qty}"
+                self.components.append(item)
+                print(f"Added {length}mm Wire ${price:.2f} X {qty}\n")
+            elif choice == 2:
+                print("NEW BATTERY")
+                print("Battery sizes are AA or AAA or C or D or E")
+                size = input("Please enter battery size: ").strip().upper()
+                print("AA, AAA and C batteries are either 1.2 Volts or 1.5 Volts")
+                print("D batteries are 1.5 Volts")
+                print("E batteries are 9.0 Volts")
                 voltage = float(input("Please enter a voltage that matches the battery size: "))
                 price = float(input("Please enter price: "))
                 qty = int(input("Please enter number of Batteries: "))
-                print("Added " + "{:.1f}".format(voltage) + "V " + size + " Battery $" + "{:.2f}".format(price) + " X " + str(qty) + "\n")
-
-            elif choice == 9:  # Back
+                item = f"{voltage:.1f}V {size} BATTERY ${price:.2f} X {qty}"
+                self.components.append(item)
+                print(f"Added {voltage:.1f}V {size} Battery ${price:.2f} X {qty}\n")
+            elif choice == 9:
                 break
-
             else:
-                print("Feature not implemented yet. Choose Wire or Battery for now.\n")
+                print("Feature not implemented yet.\n")
 
-    def view_components(self):
-    
-     if not self.components:
-        print("No components have been created yet.")
-     else:
-        print("\nALL COMPONENTS")
-        for i in range(len(self.components)):
-            print(str(i + 1) + ". " + self.components[i])
+    def view_components(self) -> None:
+        if not self.components:
+            print("No components have been created yet.")
+        else:
+            print("ALL COMPONENTS")
+            for i, line in enumerate(self.components, start=1):
+                print(f"{i}. {line}")
+            print(f"{len(self.components)+1}. BACK")
 
     def component_menu_loop(self) -> None:
-    
-     running = True
-     while running:
-        self.display_menu(self.component_menu)
-        choice = self.get_choice(3)
+        running = True
+        while running:
+            self.display_menu(self.component_menu_options)
+            choice = self.get_choice(3)
+            if choice == 1:
+                self.new_component()
+            elif choice == 2:
+                self.view_components()
+            elif choice == 3:
+                running = False
 
-        if choice == 1:  # New Component
-            self.new_component()
-        elif choice == 2:  # View Components
-            self.view_components()
-        elif choice == 3:  # Back
-            running = False
-
-    def home_menu_loop(self):
-     running = True
-     while running:
-        self.display_menu(self.initial_menu_options)
-        choice = self.get_choice(6)
-
-        if choice == 1:  # Components
-            self.component_menu_loop()
-        elif choice == 2:  # Circuit Kits
-            print("Circuit Kits menu not implemented yet.\n")
-        elif choice == 3:  # Purchase Orders
-            print("Purchase Orders menu not implemented yet.\n")
-        elif choice == 4:  # Customer Sales
-            print("Customer Sales menu not implemented yet.\n")
-        elif choice == 5:  # Transaction History
-            print("Transaction History menu not implemented yet.\n")
-        elif choice == 6:  # Close
-            print("Closing program...")
-            running = False
-
-
-
-        
-
-    def __str__(self) -> str:
-        return "\n".join(self.initial_menu_options)
-
-
-
-            
-    
-
-    
+    def home_menu_loop(self) -> None:
+        running = True
+        while running:
+            self.display_menu(self.initial_menu_options)
+            choice = self.get_choice(6)
+            if choice == 1:
+                self.component_menu_loop()
+            elif choice == 2:
+                print("Circuit Kits menu not implemented yet.\n")
+            elif choice == 3:
+                print("Purchase Orders menu not implemented yet.\n")
+            elif choice == 4:
+                print("Customer Sales menu not implemented yet.\n")
+            elif choice == 5:
+                print("Transaction History menu not implemented yet.\n")
+            elif choice == 6:
+                print("Closing program...")
+                running = False
 
 
 if __name__ == "__main__":
-    menu = Menu()
-    menu.display_menu()
-    choice = menu.get_choice()
-    pass
+    Menu().home_menu_loop()
