@@ -1,3 +1,11 @@
+# Academic Integrity Statement
+# filename: lightcircuit.py
+# author: sandhya thapaliya
+# student ID: 522895
+# email: 522895@learning.eynesbury.edu.au
+# date: 04 September 2025
+# description: test_App class
+# This is my own work as defined by the Academic Integrity Policy
 import unittest
 from app import App
 
