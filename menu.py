@@ -8,7 +8,7 @@
 # This is my own work as defined by the Academic Integrity Policy
 
 class Menu:
-    def __init__(self) -> None:
+    def __init__(self):
         self.initial_menu_options = [
             "HOME MENU",
             "1. COMPONENTS",
@@ -36,35 +36,40 @@ class Menu:
             "8. BUZZER",
             "9. BACK",
         ]
-        self.components = []
+        self.components = []  # list of dicts
 
-    def get_choice(self, max_option: int) -> int:
+    def get_choice(self, max_option):
         while True:
             try:
                 choice = int(input("Please enter a number: "))
-                if 1 <= choice <= max_option:
+                if choice >= 1 and choice <= max_option:
                     return choice
                 else:
-                    print(f"Wrong input, must be a number between 1 and {max_option}")
-            except ValueError:
+                    print("Wrong input, must be a number between 1 and " + str(max_option))
+            except:
                 print("Invalid input, please enter a number.")
 
-    def display_menu(self, lines: list[str]) -> None:
+    def display_menu(self, lines):
         print("\n".join(lines))
 
-    def new_component(self) -> None:
+    def add_component(self, desc, price, qty):
+        self.components.append({"desc": desc, "price": price, "qty": qty})
+        print("Added " + desc + " $" + str(price) + " X " + str(qty) + "\n")
+
+    def new_component(self):
         while True:
             self.display_menu(self.new_component_menu_options)
             choice = self.get_choice(9)
-            if choice == 1:
+
+            if choice == 1:  # wire
                 print("NEW WIRE")
                 length = int(input("Please enter length (mm): "))
                 price = float(input("Please enter price: "))
                 qty = int(input("Please enter number of Wires: "))
-                item = f"{length}MM WIRE ${price:.2f} X {qty}"
-                self.components.append(item)
-                print(f"Added {length}mm Wire ${price:.2f} X {qty}\n")
-            elif choice == 2:
+                desc = str(length) + "MM WIRE"
+                self.add_component(desc, price, qty)
+
+            elif choice == 2:  # battery
                 print("NEW BATTERY")
                 print("Battery sizes are AA or AAA or C or D or E")
                 size = input("Please enter battery size: ").strip().upper()
@@ -74,24 +79,102 @@ class Menu:
                 voltage = float(input("Please enter a voltage that matches the battery size: "))
                 price = float(input("Please enter price: "))
                 qty = int(input("Please enter number of Batteries: "))
-                item = f"{voltage:.1f}V {size} BATTERY ${price:.2f} X {qty}"
-                self.components.append(item)
-                print(f"Added {voltage:.1f}V {size} Battery ${price:.2f} X {qty}\n")
+                desc = str(voltage) + "V " + size + " BATTERY"
+                self.add_component(desc, price, qty)
+
+            elif choice == 3:  # solar panel
+                print("NEW SOLAR PANEL")
+                voltage = float(input("Please enter voltage (V): "))
+                current = float(input("Please enter current (mA): "))
+                price = float(input("Please enter price: "))
+                qty = int(input("Please enter number of Solar Panels: "))
+                desc = str(voltage) + "V " + str(current) + "MA SOLAR PANEL"
+                self.add_component(desc, price, qty)
+
+            elif choice == 4:  # light globe
+                print("NEW LIGHT GLOBE")
+                colour = input("Please enter light globe colour: ").strip()
+                voltage = float(input("Please enter voltage (V): "))
+                current = float(input("Please enter current (mA): "))
+                price = float(input("Please enter price: "))
+                qty = int(input("Please enter number of Light Globes: "))
+                desc = str(voltage) + "V " + str(current) + "MA " + colour.upper() + " LIGHT GLOBE"
+                self.add_component(desc, price, qty)
+
+            elif choice == 5:  # LED light
+                print("NEW LED LIGHT")
+                colour = input("Please enter LED light colour: ").strip()
+                voltage = float(input("Please enter voltage (V): "))
+                current = float(input("Please enter current (mA): "))
+                price = float(input("Please enter price: "))
+                qty = int(input("Please enter number of LED Lights: "))
+                desc = str(voltage) + "V " + str(current) + "MA " + colour.upper() + " LED LIGHT"
+                self.add_component(desc, price, qty)
+
+            elif choice == 6:  # switch
+                print("NEW SWITCH")
+                stype = input("Please enter switch type: ").strip()
+                voltage = float(input("Please enter voltage (V): "))
+                price = float(input("Please enter price: "))
+                qty = int(input("Please enter number of Switches: "))
+                desc = str(voltage) + "V " + stype.upper() + " SWITCH"
+                self.add_component(desc, price, qty)
+
+            elif choice == 7:  # sensor
+                print("NEW SENSOR")
+                stype = input("Please enter sensor type: ").strip()
+                voltage = float(input("Please enter voltage (V): "))
+                price = float(input("Please enter price: "))
+                qty = int(input("Please enter number of Sensors: "))
+                desc = str(voltage) + "V " + stype.upper() + " SENSOR"
+                self.add_component(desc, price, qty)
+
+            elif choice == 8:  # buzzer
+                print("NEW BUZZER")
+                freq = float(input("Please enter frequency (Hz): "))
+                spl = float(input("Please enter sound pressure (dB): "))
+                voltage = float(input("Please enter voltage (V): "))
+                current = float(input("Please enter current (mA): "))
+                price = float(input("Please enter price: "))
+                qty = int(input("Please enter number of Buzzers: "))
+                desc = str(voltage) + "V " + str(current) + "MA " + str(freq) + "HZ " + str(int(spl)) + "DB BUZZER"
+                self.add_component(desc, price, qty)
+
             elif choice == 9:
                 break
-            else:
-                print("Feature not implemented yet.\n")
 
-    def view_components(self) -> None:
+    def view_components(self):
         if not self.components:
             print("No components have been created yet.")
-        else:
+            return
+        while True:
             print("ALL COMPONENTS")
-            for i, line in enumerate(self.components, start=1):
-                print(f"{i}. {line}")
-            print(f"{len(self.components)+1}. BACK")
+            for i, comp in enumerate(self.components, start=1):
+                print(str(i) + ". " + comp["desc"] + " $" + str(comp["price"]) + " X " + str(comp["qty"]))
+            print(str(len(self.components) + 1) + ". BACK")
+            choice = self.get_choice(len(self.components) + 1)
+            if choice == len(self.components) + 1:
+                break
+            else:
+                self.buy_sell_menu(choice - 1)
 
-    def component_menu_loop(self) -> None:
+    def buy_sell_menu(self, index):
+        comp = self.components[index]
+        while True:
+            print(comp["desc"] + " $" + str(comp["price"]))
+            print("1. BUY\n2. SELL\n3. BACK")
+            choice = self.get_choice(3)
+            if choice == 3:
+                break
+            qty = int(input("Please enter number of " + comp["desc"] + " $" + str(comp["price"]) + ": "))
+            if choice == 1:
+                comp["qty"] = comp["qty"] + qty
+                print("Bought " + comp["desc"] + " $" + str(comp["price"]) + " X " + str(qty))
+            elif choice == 2:
+                comp["qty"] = max(0, comp["qty"] - qty)
+                print("Sold " + comp["desc"] + " $" + str(comp["price"]) + " X " + str(qty))
+
+    def component_menu_loop(self):
         running = True
         while running:
             self.display_menu(self.component_menu_options)
@@ -103,7 +186,7 @@ class Menu:
             elif choice == 3:
                 running = False
 
-    def home_menu_loop(self) -> None:
+    def home_menu_loop(self):
         running = True
         while running:
             self.display_menu(self.initial_menu_options)
