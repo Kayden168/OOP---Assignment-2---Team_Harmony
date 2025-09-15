@@ -9,6 +9,12 @@
 import unittest
 from wire import Wire
 from battery import Battery
+from solarpanel import SolarPanel
+from switch import Switch
+from sensor import Sensor
+from lightglobe import LightGlobe
+from ledlight import LEDLight
+from buzzer import Buzzer
 
 class TestWire(unittest.TestCase):
     def test_duplicate(self):
@@ -21,6 +27,7 @@ class TestWire(unittest.TestCase):
     def test_to_csv_str(self):
         w = Wire(150, 3.0)
         self.assertEqual(w.to_csv_str(), "Wire,150,3.00")
+        pass
 
 class TestBattery(unittest.TestCase):
     def test_duplicate(self):
@@ -34,6 +41,43 @@ class TestBattery(unittest.TestCase):
     def test_to_csv_str(self):
         b = Battery("AA", 1.5, 0.9)
         self.assertEqual(b.to_csv_str(), "Battery,AA,1.5,0.90")
+        pass
+
+class TestSolarPanel(unittest.TestCase):
+    def test_to_csv_str(self):
+        sp = SolarPanel(5.0, 200.0, 10.0)
+        self.assertEqual(sp.to_csv_str(), "Solar Panel,5.0,200.0,10.00")
+        pass
+
+class TestSwitch(unittest.TestCase):
+    def test_to_csv_str(self):
+        s = Switch("toggle", 3.3, 1.2)
+        self.assertEqual(s.to_csv_str(), "Switch,toggle,3.3,1.20")
+        pass
+
+class TestSensor(unittest.TestCase):
+    def test_to_csv_str(self):
+        s = Sensor("temperature", 5.0, 2.5)
+        self.assertEqual(s.to_csv_str(), "Sensor,temperature,5.0,2.50")
+        pass
+
+class TestLightGlobe(unittest.TestCase):
+    def test_to_csv_str(self):
+        lg = LightGlobe("red", 3.0, 20.0, 1.5)
+        self.assertEqual(lg.to_csv_str(), "Light Globe,red,3.0,20.0,1.50")
+        pass
+
+class TestLEDLight(unittest.TestCase):
+    def test_to_csv_str(self):
+        led = LEDLight("green", 3.0, 15.0, 2.0)
+        self.assertEqual(led.to_csv_str(), "LED Light,green,3.0,15.0,2.00")
+        pass
+
+class TestBuzzer(unittest.TestCase):
+    def test_to_csv_str(self):
+        bz = Buzzer(4000.0, 85.0, 5.0, 30.0, 1.2)
+        self.assertEqual(bz.to_csv_str(), "Buzzer,4000.0,85,5.0,30.0,1.20")
+        pass
 
 if __name__ == "__main__":
     unittest.main()
