@@ -4,7 +4,7 @@
 # student ID: 522895
 # email: 522895@learning.eynesbury.edu.au
 # date: 15 September 2025
-# description: outputcomponent class
+# description: sensorcircuit class
 # This is my own work as defined by the Academic Integrity Policy
 from circuit import Circuit
 from sensor import Sensor
