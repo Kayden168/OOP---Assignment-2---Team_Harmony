@@ -1,6 +1,6 @@
 # Academic Integrity Statement
 # filename: inventory.py
-# author: Kayden Hong
+# author: Kayden Hong and Sandy
 # student ID: 523258
 # email: 523258@learning.eynesbury.edu.au
 # date: 04 September 2025
