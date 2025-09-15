@@ -1,3 +1,11 @@
+#Academic Integrity Statement
+# filename: switch.py
+# author: sandhya thapaliya
+# student ID: 522895
+# email: 522895@learning.eynesbury.edu.au
+# date: 15 September 2025
+# description: switch class
+# This is my own work as defined by the Academic Integrity Policy
 from inputcomponent import InputComponent
 
 class Switch(InputComponent):
