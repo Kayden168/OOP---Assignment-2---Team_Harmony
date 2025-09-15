@@ -6,29 +6,29 @@
 # date: 04 September 2025
 # description: solarpanel class
 # This is my own work as defined by the Academic Integrity Policy
-from component import Component
+from powersupply import PowerSupply
 
-class Wire(Component):
-    def __init__(self, length_mm: int, price: float) -> None:
-        super().__init__("Wire", price)
-        self.__length_mm = int(length_mm)
+class SolarPanel(PowerSupply):
+    def __init__(self, voltage: float, current_ma: float, price: float) -> None:
+        super().__init__("Solar Panel", price, voltage)
+        self.__current_ma = float(current_ma)
 
     @property
-    def length_mm(self) -> int:
-        return self.__length_mm
+    def current_ma(self) -> float:
+        return self.__current_ma
 
-    @length_mm.setter
-    def length_mm(self, value: int) -> None:
-        self.__length_mm = int(value)
+    @current_ma.setter
+    def current_ma(self, value: float) -> None:
+        self.__current_ma = float(value)
 
     def to_csv_str(self) -> str:
-        return f"Wire,{self.length_mm},{self.price:.2f}"
+        return f"Solar Panel,{self.voltage:.1f},{self.current_ma:.1f},{self.price:.2f}"
 
     def duplicate(self):
-        return Wire(self.length_mm, self.price)
+        return SolarPanel(self.voltage, self.current_ma, self.price)
 
     def display_the_details(self) -> str:
-        return f"{self.length_mm}mm Wire ${self.price:.2f}"
+        return f"{self.voltage:.1f}V {self.current_ma:.1f}mA Solar Panel ${self.price:.2f}"
 
     @classmethod
     def parse_csv(cls, csv_str: str):
