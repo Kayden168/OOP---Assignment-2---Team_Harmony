@@ -158,7 +158,8 @@ class Menu:
         return
         
     def new_component(self):
-        while True:
+        running = True
+        while running:
             self.display_menu(self.new_component_menu_options)
             choice = self.get_choice(9)
 
