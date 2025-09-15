@@ -141,7 +141,22 @@ class Menu:
                 pass
             pass
         return
-    
+
+    def circuit_kit_menu_loop(self):
+        running = True
+        while running:
+            self.display_menu(self.circuit_kit_menu_options)
+            choice = self.get_choice(3)
+            if choice == 1:
+                self.new_circuit_kit()
+            elif choice == 2:
+                self.view_circuit_kits()
+            elif choice == 3:
+                running = False
+                pass
+            pass
+        return
+        
     def new_component(self):
         while True:
             self.display_menu(self.new_component_menu_options)
