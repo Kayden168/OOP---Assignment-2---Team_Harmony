@@ -71,6 +71,22 @@ class Menu:
         self.components.append({"desc": desc, "price": price, "qty": qty})
         print("Added " + desc + " $" + str(price) + " X " + str(qty) + "\n")
 
+    def add_circuit_kit(self, desc, price, qty):
+        self.circuit_kits.append({"desc": desc, "price": price, "qty": qty})
+        print("Added Circuit Kit " + desc + " $" + str(price) + " X " + str(qty) + "\n")
+
+    def new_circuit_kit(self):
+        while True:
+            self.display_menu(self.new_circuit_kit_menu_options)
+            choice = self.get_choice(9)
+            if choice == 9:
+                break
+            else:
+                desc = input("Please enter circuit kit description: ")
+                price = float(input("Please enter price: "))
+                qty = int(input("Please enter number of Circuit Kits: "))
+                self.add_circuit_kit(desc, price, qty)
+
     def new_component(self):
         while True:
             self.display_menu(self.new_component_menu_options)
