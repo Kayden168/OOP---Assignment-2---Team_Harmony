@@ -14,3 +14,15 @@ class Component(ABC):
     @property
     def name(self) -> str:
         return self.__name
+    
+    @name.setter
+    def name(self, value: str) -> None:
+        self.__name = value
+
+    @property
+    def price(self) -> float:
+        return self.__price
+
+    @price.setter
+    def price(self, value: float) -> None:
+        self.__price = float(value)
