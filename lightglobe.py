@@ -1,3 +1,12 @@
+# Academic Integrity Statement
+# filename: lightglobe.py
+# author: Kayden Hong
+# student ID: 523258
+# email: 523258@learning.eynesbury.edu.au
+# date: 04 September 2025
+# description: lightglobe class
+# This is my own work as defined by the Academic Integrity Policy
+
 from light import Light
 
 class LightGlobe(Light):
