@@ -31,3 +31,7 @@ class Switch(InputComponent):
     def display_the_details(self) -> str:
         t = self.switch_type.capitalize()
         return "{:.1f}".format(self.voltage) + "V " + t + " Switch $" + "{:.2f}".format(self.price)
+    
+    @classmethod
+    def parse_csv(cls, csv_str: str):
+        pass
