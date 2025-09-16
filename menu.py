@@ -49,10 +49,34 @@ class Menu:
             "8. SENSOR CIRCUIT KIT WITH BUZZER AND SWITCH",
             "9. BACK",
         ]
-        
+
+        self.circuit_kit_menu_options = [
+            "CIRCUIT KIT MENU",
+            "1. NEW CIRCUIT KIT",
+            "2. VIEW CIRCUIT KITS",
+            "3. BACK",
+        ]    
+
+        self.buy_sell_menu_options = [
+            "Buy",
+            "Sell",
+            "Pack",
+            "Unpack",
+            "Back"
+        ]
+
+        self.sort_options = [
+            "Sort by date (ascending)",
+            "Sort by date (descending)",
+            "Sort by wholesale price (ascending)",
+            "Sort by wholesale price (descending)",
+            "Sort by retail price (ascending)",
+            "Sort by retail price (descending)",
+            "Back (Cancel Sorting)"
+        ]
         self.components = []  # list of dicts
         self.circuit_kits = [] # list of dicts for kits
-
+        self.transaction = []
     def get_choice(self, max_option):
         while True:
             try:
@@ -76,24 +100,13 @@ class Menu:
         print("Added Circuit Kit " + desc + " $" + str(price) + " X " + str(qty) + "\n")
 
     def new_circuit_kit(self):
-        print("NEW CIRCUIT KIT MENU")
-        print("1. LIGHT GLOBE CIRCUIT KIT")
-        print("2. LED LIGHT CIRCUIT KIT")
-        print("3. SENSOR CIRCUIT KIT WITH LIGHT GLOBE")
-        print("4. SENSOR CIRCUIT KIT WITH LED LIGHT")
-        print("5. SENSOR CIRCUIT KIT WITH BUZZER")
-        print("6. SENSOR CIRCUIT KIT WITH LIGHT GLOBE AND SWITCH")
-        print("7. SENSOR CIRCUIT KIT WITH LED LIGHT AND SWITCH")
-        print("8. SENSOR CIRCUIT KIT WITH BUZZER AND SWITCH")
-        print("9. BACK")
+        self.display_menu(self.new_circuit_kit_menu_options)
         choice = self.get_choice(9)
         if choice != 9:
             desc = input("Enter description for new circuit kit: ")
             price = float(input("Enter price: "))
             qty = int(input("Enter quantity: "))
-            kit = {"desc": desc, "price": price, "qty": qty}
-            self.circuit_kits.append(kit)
-            print("Added " + desc + " $" + str(price) + " X " + str(qty))
+            self.add_circuit_kit(desc, price, qty)
     
     def view_circuit_kits(self):
         if not self.circuit_kits:
@@ -240,33 +253,42 @@ class Menu:
     def view_components(self):
         if not self.components:
             print("No components have been created yet.")
-        else:
+            return
+        exit_loop = False
+        while not exit_loop:
             print("ALL COMPONENTS")
-            for i, line in enumerate(self.components, start=1):
-                print(str(i) + ". " + line)
-            print(str(len(self.components) + 1) + ". BACK")
+            for i, comp in enumerate(self.components, start=1):
+                print(f"{i}. {comp['desc']} ${comp['price']} X {comp['qty']}")
+            print(f"{len(self.components) + 1}. BACK")
             choice = self.get_choice(len(self.components) + 1)
             if choice == len(self.components) + 1:
-                return
+                exit_loop = True
             else:
-                print("Selected component: " + self.components[choice - 1])
+                self.buy_sell_menu(choice - 1)
     
-    def buy_sell_menu(self, index):
-        comp = self.components[index]
+    def buy_sell_menu(self, item):
         while True:
-            print(comp["desc"] + " $" + str(comp["price"]))
-            print("1. BUY\n2. SELL\n3. BACK")
-            choice = self.get_choice(3)
-            if choice == 3:
-                break
-            qty = int(input("Please enter number of " + comp["desc"] + " $" + str(comp["price"]) + ": "))
-            if choice == 1:
-                comp["qty"] = comp["qty"] + qty
-                print("Bought " + comp["desc"] + " $" + str(comp["price"]) + " X " + str(qty))
-            elif choice == 2:
-                comp["qty"] = max(0, comp["qty"] - qty)
-                print("Sold " + comp["desc"] + " $" + str(comp["price"]) + " X " + str(qty))
+            self.display_menu(self.buy_sell_menu_options)
+            choice = self.get_choice(self.buy_sell_menu_options)
 
+            if choice == 1:  # Buy
+                qty = int(input("Enter quantity to buy: "))
+                item["qty"] += qty
+                print("Bought successfully.")
+            elif choice == 2:  # Sell
+                qty = int(input("Enter quantity to sell: "))
+                if qty <= item["qty"]:
+                    item["qty"] -= qty
+                    print("Sold successfully.")
+                else:
+                    print("Not enough stock.")
+            elif choice == 3:  # Pack
+                print(f"Packing {item['desc']}...")
+            elif choice == 4:  # Unpack
+                print(f"Unpacking {item['desc']}...")
+            elif choice == 5:  # Back
+                return
+            
     def component_menu_loop(self):
         running = True
         while running:
@@ -298,6 +320,61 @@ class Menu:
                 print("Closing program...")
                 running = False
 
+    def purchase_orders_menu(self):
+        try:
+            total = float(input("Enter total purchase order amount: $"))
+            self.add_transaction("Purchase Order", total, wholesale_price=total)
+            print("Purchase order recorded.")
+        except ValueError:
+            print("Invalid amount.")
 
+    def customer_sales_menu(self):
+        try:
+            total = float(input("Enter total customer sale amount: $"))
+            self.add_transaction("Customer Sale", total, retail_price=total)
+            print("Customer sale recorded.")
+        except ValueError:
+            print("Invalid amount.")
+
+    def transaction_history_menu(self):
+        while True:
+            print("\nTRANSACTION HISTORY")
+            if not self.transactions:
+                print("No transactions available.")
+                return
+
+            for i, t in enumerate(self.transactions, 1):
+                print(f"{i}. {t['type']} {t['datetime'].strftime('%Y-%m-%d %H:%M:%S')}, total ${t['total']:.2f}")
+
+            print(f"{len(self.transactions)+1}. SORT")
+            print(f"{len(self.transactions)+2}. BACK")
+
+            choice = self.get_choice(range(len(self.transactions) + 2))
+
+            if choice == len(self.transactions) + 1:
+                self.sort_transactions()
+            elif choice == len(self.transactions) + 2:
+                return
+
+    def sort_transactions(self):
+        while True:
+            print("\nSORT OPTIONS")
+            self.display_menu(self.sort_options)
+            choice = self.get_choice(self.sort_options)
+
+            if choice == 1:
+                self.transactions.sort(key=lambda x: x["datetime"])
+            elif choice == 2:
+                self.transactions.sort(key=lambda x: x["datetime"], reverse=True)
+            elif choice == 3:
+                self.transactions.sort(key=lambda x: x["wholesale"])
+            elif choice == 4:
+                self.transactions.sort(key=lambda x: x["wholesale"], reverse=True)
+            elif choice == 5:
+                self.transactions.sort(key=lambda x: x["retail"])
+            elif choice == 6:
+                self.transactions.sort(key=lambda x: x["retail"], reverse=True)
+            elif choice == 7:
+                return
 if __name__ == "__main__":
     Menu().home_menu_loop()
