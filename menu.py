@@ -323,7 +323,7 @@ class Menu:
     def purchase_orders_menu(self):
         try:
             total = float(input("Enter total purchase order amount: $"))
-            self.add_transaction("Purchase Order", total, wholesale_price=total)
+            self.sort_transactions("Purchase Order", total, wholesale_price=total)
             print("Purchase order recorded.")
         except ValueError:
             print("Invalid amount.")
@@ -331,7 +331,7 @@ class Menu:
     def customer_sales_menu(self):
         try:
             total = float(input("Enter total customer sale amount: $"))
-            self.add_transaction("Customer Sale", total, retail_price=total)
+            self.sort_transactions("Customer Sale", total, retail_price=total)
             print("Customer sale recorded.")
         except ValueError:
             print("Invalid amount.")
