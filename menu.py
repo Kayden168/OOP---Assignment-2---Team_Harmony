@@ -76,7 +76,7 @@ class Menu:
         ]
         self.components = []  # list of dicts
         self.circuit_kits = [] # list of dicts for kits
-        self.transaction = []
+        self.transactions = []
         
     def get_choice(self, max_option):
         while True:
