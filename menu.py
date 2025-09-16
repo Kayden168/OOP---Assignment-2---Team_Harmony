@@ -77,6 +77,7 @@ class Menu:
         self.components = []  # list of dicts
         self.circuit_kits = [] # list of dicts for kits
         self.transaction = []
+        
     def get_choice(self, max_option):
         while True:
             try:
@@ -309,15 +310,14 @@ class Menu:
             if choice == 1:
                 self.component_menu_loop()
             elif choice == 2:
-                print("Circuit Kits menu not implemented yet.\n")
+                self.circuit_kit_menu_loop()
             elif choice == 3:
-                print("Purchase Orders menu not implemented yet.\n")
+                self.purchase_orders_menu()
             elif choice == 4:
-                print("Customer Sales menu not implemented yet.\n")
+                self.customer_sales_menu()
             elif choice == 5:
-                print("Transaction History menu not implemented yet.\n")
+                self.transaction_history_menu()
             elif choice == 6:
-                print("Closing program...")
                 running = False
 
     def purchase_orders_menu(self):
