@@ -27,7 +27,8 @@ class App:
         self.components_csv = "components.csv"
         self.circuits_csv = "circuits.csv"
         self.transactions_csv = "transactions.csv"
-
+        self.inventory = self
+        
     def add_wire(self, length_mm, price, qty) -> None:
         i = 0
         while i < int(qty):
