@@ -6,6 +6,7 @@
 # date: 04 September 2025
 # description: menu class
 # This is my own work as defined by the Academic Integrity Policy
+import datetime
 
 class Menu:
     def __init__(self):
@@ -321,21 +322,90 @@ class Menu:
                 running = False
 
     def purchase_orders_menu(self):
-        try:
-            total = float(input("Enter total purchase order amount: $"))
-            self.sort_transactions("Purchase Order", total, wholesale_price=total)
-            print("Purchase order recorded.")
-        except ValueError:
-            print("Invalid amount.")
+        current_order = []  # temporary list of items for this order
+        running = True
+        while running:
+            print("\nPURCHASE ORDER")
+            print("1. Add Item from Catalogue to Order")
+            print("2. View Order")
+            print("3. Clear Order")
+            print("4. Complete Order")
+            print("5. BACK (CANCEL ORDER)")
+            choice = self.get_choice(5)
 
+            if choice == 1:
+                self.add_item_to_order(current_order, for_sale=False)
+            elif choice == 2:
+                self.view_order(current_order)
+            elif choice == 3:
+                current_order.clear()
+                print("Order cleared.")
+            elif choice == 4:
+                if current_order:
+                    total = sum(item['price'] * item['qty'] for item in current_order)
+                    self.transactions.append({
+                        "type": "Purchase Order",
+                        "datetime": datetime.datetime.now(),
+                        "items": current_order.copy(),
+                        "total": total,
+                        "wholesale": total,
+                        "retail": total
+                    })
+                    print(f"Completing Purchase Order {datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+                    current_order.clear()
+                else:
+                    print("Order is empty, cannot complete.")
+            elif choice == 5:
+                return
+            
     def customer_sales_menu(self):
-        try:
-            total = float(input("Enter total customer sale amount: $"))
-            self.sort_transactions("Customer Sale", total, retail_price=total)
-            print("Customer sale recorded.")
-        except ValueError:
-            print("Invalid amount.")
+        current_sale = []  # temporary list of items for this sale
+        running = True
+        while running:
+            print("\nCUSTOMER SALE")
+            print("1. Add Item from Inventory to Sale")
+            print("2. BACK (CANCEL ORDER)")
+            choice = self.get_choice(2)
 
+            if choice == 1:
+                self.add_item_to_order(current_sale, for_sale=True)
+            elif choice == 2:
+                return
+
+    def add_item_to_order(self, order_list, for_sale):
+        if not self.components and not self.circuit_kits:
+            print("No items in inventory.")
+            return
+
+        print("\nCATALOGUE")
+        catalogue = self.components + self.circuit_kits
+        for i, item in enumerate(catalogue, 1):
+            if 'qty' in item:
+                stock = f" X {item['qty']}"
+            else:
+                stock = ""
+            print(f"{i}. {item['desc']} ${item['price']}{stock}")
+        print(f"{len(catalogue)+1}. BACK")
+
+        choice = self.get_choice(len(catalogue)+1)
+        if choice == len(catalogue)+1:
+            return
+
+        selected_item = catalogue[choice-1]
+        qty = int(input("Quantity: "))
+        if for_sale:
+            if qty > selected_item['qty']:
+                print("Not enough stock available.")
+                return
+            selected_item['qty'] -= qty
+
+        order_list.append({
+            "desc": selected_item["desc"],
+            "price": selected_item["price"],
+            "qty": qty
+        })
+        print(f"Adding {qty} x {selected_item['desc']} ${selected_item['price']}")
+    
     def transaction_history_menu(self):
         while True:
             print("\nTRANSACTION HISTORY")
@@ -355,7 +425,42 @@ class Menu:
                 self.sort_transactions()
             elif choice == len(self.transactions) + 2:
                 return
+            
+    def view_order(self, order_list):
+        if not order_list:
+            print("Order is empty.")
+            return
+        print("\nORDER")
+        total_tally = 0
+        for item in order_list:
+            line_total = item['price'] * item['qty']
+            print(f"{item['desc']} ${item['price']} X {item['qty']}")
+            print(f"QUANTITY: {item['qty']}")
+            print(f"PRICE: ${item['price']:.2f}")
+            print(f"TOTAL: ${line_total:.2f}\n")
+            total_tally += line_total  
+        print(f"TOTAL TALLY: ${total_tally:.2f}")
+    
+    def transaction_history_menu(self):
+        while True:
+            print("\nTRANSACTION HISTORY")
+            if not self.transactions:
+                print("No transactions available.")
+                return
 
+            for i, t in enumerate(self.transactions, 1):
+                print(f"{i}. {t['type']} {t['datetime'].strftime('%Y-%m-%d %H:%M:%S')}, total ${t['total']:.2f}")
+
+            print(f"{len(self.transactions)+1}. SORT")
+            print(f"{len(self.transactions)+2}. BACK")
+
+            choice = self.get_choice(len(self.transactions)+2)
+
+            if choice == len(self.transactions)+1:
+                self.sort_transactions()
+            elif choice == len(self.transactions)+2:
+                return   
+    
     def sort_transactions(self):
         while True:
             print("\nSORT OPTIONS")
