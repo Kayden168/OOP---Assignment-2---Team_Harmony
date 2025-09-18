@@ -16,6 +16,7 @@ class PowerSupply(Component, ABC):
     @property
     def voltage(self) -> float:
         return self.__voltage
+        
 
     @voltage.setter
     def voltage(self, value: float) -> None:

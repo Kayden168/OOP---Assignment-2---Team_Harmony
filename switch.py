@@ -21,6 +21,7 @@ class Switch(InputComponent):
     @switch_type.setter
     def switch_type(self, value: str) -> None:
         self.__switch_type = value.lower()
+        
 
     @property
     def voltage(self) -> float:
